@@ -18,7 +18,7 @@ function App() {
         <Route index element={<Auth />} />
         <Route path="/home" element={authCtx.token ? <Home /> : <Auth />} />
         <Route
-          path="/recipe/:id"
+          path="/recipes/:id"
           element={authCtx.token ? <RecipeDetails /> : <Auth />}
         />
         <Route

@@ -1,12 +1,13 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import { Formik } from "formik";
+import AuthContext from "../store/authContext";
 
 const AddRecipe = () => {
   //main recipe info states
-  const [recipeName, setRecipeName] = useState("");
-  const [servings, setServings] = useState("");
+  const [name, setname] = useState("");
+  const [serves, setServes] = useState("");
   const [recipeInstructions, setRecipeInstructions] = useState("");
   const [allIngredients, setAllIngredients] = useState([]);
   //individual ingredient info states
@@ -21,7 +22,7 @@ const AddRecipe = () => {
   const addIngredients = () => {
     setAllIngredients([
       ...allIngredients,
-      { ingredientName, quantity, carbs, fat, protein },
+      { name: ingredientName, quantity, carbs, fat, protein },
     ]);
     console.log(allIngredients);
     setIngredientName("");
@@ -32,36 +33,112 @@ const AddRecipe = () => {
   };
 
   const initialValues = {
-    recipeName: "",
+    name: "",
     serves: "",
-    ingredients: [],
+    allIngredients: [],
     instructions: "",
   };
 
+  const authCtx = useContext(AuthContext);
   const onSubmit = (values) => {
-    values.ingredients = allIngredients;
+    values.allIngredients = allIngredients;
+    values.userId = authCtx.userId
+    console.log(values);
+    values.name = name;
+    values.serves = serves;
     axios
-      .post("api/recipes", values)
+      .post("/api/recipes", values)
       .then((res) => {
         console.log(res.data);
-        navigate(`api/recipes/${res.data[0][0].id}`);
+        navigate(`/recipes/${res.data.id}`);
       })
       .catch((err) => console.log(err));
+  };
+
+  const handleInputChange = (name, index, value) => {
+    const newState = [...allIngredients];
+    newState[index][`${name}`] = value;
+    setAllIngredients(newState);
   };
 
   const ingredientsDisplay = allIngredients.map((ing, index) => {
     return (
       <div key={index}>
-        <input type="text" value={ing} />
+        <input
+          onChange={(e) =>
+            handleInputChange(e.target.name, index, e.target.value)
+          }
+          name="ingredientName"
+          type="text"
+          value={ing.name}
+        />
+        <input
+          onChange={(e) =>
+            handleInputChange(e.target.name, index, e.target.value)
+          }
+          name="quantity"
+          type="text"
+          value={ing.quantity}
+        />
+        <input
+          onChange={(e) =>
+            handleInputChange(e.target.name, index, e.target.value)
+          }
+          name="carbs"
+          type="number"
+          value={ing.carbs}
+        />
+        <input
+          onChange={(e) =>
+            handleInputChange(e.target.name, index, e.target.value)
+          }
+          name="fat"
+          type="number"
+          value={ing.fat}
+        />
+        <input
+          onChange={(e) =>
+            handleInputChange(e.target.name, index, e.target.value)
+          }
+          name="protein"
+          type="number"
+          value={ing.protein}
+        />
       </div>
     );
   });
 
+  const totalCalories = allIngredients.reduce((acc, ing) => {
+    return acc + ing.carbs * 4 + ing.protein * 4 + ing.fat * 9;
+  }, 0);
+  const carbPercent = allIngredients.reduce((acc, ing) => {
+    return acc + ((ing.carbs * 4) / totalCalories) * 100;
+  }, 0);
+  const fatPercent = allIngredients.reduce((acc, ing) => {
+    return acc + ((ing.fat * 9) / totalCalories) * 100;
+  }, 0);
+  const proteinPercent = allIngredients.reduce((acc, ing) => {
+    return acc + ((ing.protein * 4) / totalCalories) * 100;
+  }, 0);
+
+  console.log("carb:", carbPercent);
+  console.log("fat:", fatPercent);
+  console.log("protein:", proteinPercent);
+
   return (
     <div>
       <NavLink to="/home">Back to recipes</NavLink>
-      <h1>Placeholder recipe name</h1>
-      <h2>Placeholder calories/serving and %C/%F/%P</h2>
+      <h1>{name}</h1>
+      <h2>
+        {allIngredients.length === 0
+          ? "0"
+          : Math.floor(+totalCalories / +serves)}{" "}
+        calories at {carbPercent.toFixed(0)}C/{fatPercent.toFixed(0)}F/
+        {allIngredients.length === 0
+          ? "0"
+          : 100 - (+carbPercent.toFixed(0) + +fatPercent.toFixed(0))}
+        P
+      </h2>
       <div>
         <Formik initialValues={initialValues} onSubmit={onSubmit}>
           {({ values, handleChange, handleSubmit }) => {
@@ -70,16 +147,16 @@ const AddRecipe = () => {
                 <div>
                   <input
                     placeholder="recipe name"
-                    value={values.recipeName}
-                    onChange={handleChange}
-                    name="recipeName"
+                    value={name}
+                    onChange={(e) => setname(e.target.value)}
+                    name="name"
                   />
                 </div>
                 <div>
                   <input
                     placeholder="serves"
-                    value={values.serves}
-                    onChange={handleChange}
+                    value={serves}
+                    onChange={(e) => setServes(e.target.value)}
                     name="serves"
                   />
                 </div>
@@ -90,6 +167,7 @@ const AddRecipe = () => {
                   value={values.instructions}
                   cols="30"
                   rows="10"
+                  onChange={handleChange}
                 ></textarea>
                 <div>
                   <input
@@ -117,7 +195,9 @@ const AddRecipe = () => {
                     value={protein}
                     onChange={(e) => setProtein(e.target.value)}
                   />
-                  <button type="button" onClick={() => addIngredients()}>+</button>
+                  <button type="button" onClick={() => addIngredients()}>
+                    +
+                  </button>
                 </div>
 
                 <div>

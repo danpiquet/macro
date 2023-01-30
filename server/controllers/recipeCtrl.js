@@ -36,7 +36,7 @@ module.exports = {
         ing.recipeId = newRecipe.id;
         return ing;
       });
-      console.log('newArr',newArr)
+      console.log("newArr", newArr);
       await Ingredient.bulkCreate(newArr);
       const recipeDetails = await Recipe.findOne({
         where: { id: newRecipe.id },
@@ -74,12 +74,12 @@ module.exports = {
           {
             model: User,
             required: true,
-            attributes: ["username"],
+            attributes: ["username", "id"],
           },
           {
             model: Ingredient,
             required: true,
-            attributes: ["name", "quantity"],
+            attributes: ["name", "quantity","carbs","fat","protein"],
           },
         ],
       });

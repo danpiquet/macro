@@ -42,7 +42,7 @@ const AddRecipe = () => {
   const authCtx = useContext(AuthContext);
   const onSubmit = (values) => {
     values.allIngredients = allIngredients;
-    values.userId = authCtx.userId
+    values.userId = authCtx.userId;
     console.log(values);
     values.name = name;
     values.serves = serves;
@@ -61,9 +61,16 @@ const AddRecipe = () => {
     setAllIngredients(newState);
   };
 
+  const handleDelete = (index) => {
+    const newState = [...allIngredients];
+    newState.splice(index, 1);
+    setAllIngredients(newState);
+  };
+
   const ingredientsDisplay = allIngredients.map((ing, index) => {
     return (
       <div key={index}>
+        <button onClick={() => handleDelete()}>x</button>
         <input
           onChange={(e) =>
             handleInputChange(e.target.name, index, e.target.value)
@@ -121,19 +128,21 @@ const AddRecipe = () => {
     return acc + ((ing.protein * 4) / totalCalories) * 100;
   }, 0);
 
-  console.log("carb:", carbPercent);
-  console.log("fat:", fatPercent);
-  console.log("protein:", proteinPercent);
+  console.log(allIngredients);
 
   return (
     <div>
       <NavLink to="/home">Back to recipes</NavLink>
       <h1>{name}</h1>
+
       <h2>
         {allIngredients.length === 0
           ? "0"
+          : serves === ""
+          ? Math.floor(+totalCalories)
           : Math.floor(+totalCalories / +serves)}{" "}
-        calories at {carbPercent.toFixed(0)}C/{fatPercent.toFixed(0)}F/
+        cal at <br />
+        {carbPercent.toFixed(0)}C/{fatPercent.toFixed(0)}F/
         {allIngredients.length === 0
           ? "0"
           : 100 - (+carbPercent.toFixed(0) + +fatPercent.toFixed(0))}
@@ -152,6 +161,7 @@ const AddRecipe = () => {
                     name="name"
                   />
                 </div>
+
                 <div>
                   <input
                     placeholder="serves"
@@ -160,6 +170,7 @@ const AddRecipe = () => {
                     name="serves"
                   />
                 </div>
+                <p>{!serves ? "how many does it serve?" : null}</p>
 
                 <textarea
                   placeholder="recipe  instructions"

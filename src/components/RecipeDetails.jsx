@@ -3,12 +3,14 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
+
 const RecipeDetails = () => {
   const { id } = useParams();
   const [recipeDetail, setRecipeDetail] = useState({});
 
+  
+
   const getRecipeDetail = () => {
-    console.log(id)
     axios
       .get(`/api/recipes/${+id}`)
       .then((res) => {
@@ -20,9 +22,16 @@ const RecipeDetails = () => {
   useEffect(() => {
     getRecipeDetail();
   }, []);
+
+  
   return (
     <div>
-      <h1>recipe detail: {recipeDetail.name}</h1>
+      <h1>{recipeDetail.name}</h1>
+      <h2>Serves: {recipeDetail.serves}</h2>
+      <p>
+        Instructions: {recipeDetail.instructions}
+      </p>
+      
     </div>
   );
 };

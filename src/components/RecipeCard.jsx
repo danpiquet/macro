@@ -1,9 +1,17 @@
-import React from 'react'
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
-const RecipeCard = () => {
+const RecipeCard = ({ recipe }) => {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate(`/recipes/${recipe.id}`);
+  };
   return (
-    <div>RecipeCard</div>
-  )
-}
+    <div>
+      <h1>{recipe.name}</h1>
+      <button onClick={() => handleClick()}>See More</button>
+    </div>
+  );
+};
 
-export default RecipeCard
+export default RecipeCard;

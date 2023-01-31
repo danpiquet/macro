@@ -5,15 +5,17 @@ import Auth from "./components/Auth";
 import Home from "./components/Home";
 import AddRecipe from "./components/AddRecipe";
 import RecipeDetails from "./components/RecipeDetails";
-import Header from "./components/Header";
+import Header from "./components/NavLinks";
 import { Routes, Route } from "react-router-dom";
 import { useContext } from "react";
+import SearchAppBar from "./components/SearchAppBar";
 
 function App() {
   const authCtx = useContext(AuthContext);
   return (
     <div className="App">
-      <Header />
+      <SearchAppBar/>
+      {/* <Header /> */}
       <Routes>
         <Route index element={<Auth />} />
         <Route path="/home" element={authCtx.token ? <Home /> : <Auth />} />

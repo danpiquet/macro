@@ -54,7 +54,18 @@ module.exports = {
   getAllRecipes: async (req, res) => {
     try {
       const recipes = await Recipe.findAll({
-        include: [{ model: User, required: true, attributes: ["username"] }],
+        include: [
+          {
+            model: User,
+            required: true,
+            attributes: ["username"],
+          },
+          {
+            model: Ingredient,
+            required: true,
+            attributes: ["name", "quantity", "carbs", "fat", "protein"],
+          },
+        ],
       });
       return res.status(200).send(recipes);
     } catch (err) {
@@ -79,7 +90,7 @@ module.exports = {
           {
             model: Ingredient,
             required: true,
-            attributes: ["name", "quantity","carbs","fat","protein"],
+            attributes: ["name", "quantity", "carbs", "fat", "protein"],
           },
         ],
       });

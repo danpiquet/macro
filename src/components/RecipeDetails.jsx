@@ -8,7 +8,11 @@ const RecipeDetails = () => {
   const { id } = useParams();
   const [recipeDetail, setRecipeDetail] = useState({});
   const [editing, setEditing] = useState(false)
-  //editing states
+  const [name, setname] = useState("");
+  const [serves, setServes] = useState("");
+  const [recipeInstructions, setRecipeInstructions] = useState("");
+  const [allIngredients, setAllIngredients] = useState([]);
+  //individual ingredient info states
   const [ingredientName, setIngredientName] = useState("");
   const [quantity, setQuantity] = useState("");
   const [carbs, setCarbs] = useState("");
@@ -36,6 +40,7 @@ const RecipeDetails = () => {
 
   console.log(recipeDetail);
   
+  
   return (
       !editing ? (<div>
         <h1>{recipeDetail.name}</h1>
@@ -56,11 +61,11 @@ const RecipeDetails = () => {
           <br />
           {+recipeDetail?.ingredients?.length > 0 && recipeDetail?.ingredients?.map((ing) => {
             <div>
-              <input type="text" value={ing.name} />
-              <input type="text" value={ing.quantity} />
-              <input type="text" value={ing.carbs} />
-              <input type="text" value={ing.fat} />
-              <input type="text" value={ing.protein} />
+              <input type="text" value={ing?.name} />
+              <input type="text" value={ing?.quantity} />
+              <input type="text" value={ing?.carbs} />
+              <input type="text" value={ing?.fat} />
+              <input type="text" value={ing?.protein} />
             </div>
           }) }
 

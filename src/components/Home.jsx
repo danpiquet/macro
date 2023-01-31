@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { BiSearchAlt2 } from "react-icons/bi";
 import RecipeContainer from "./RecipeContainer";
 
+const label = { inputProps: { "aria-label": "Switch demo" } };
+
 const Home = ({ recipe }) => {
   const [recipes, setRecipes] = useState([]);
   console.log(recipes);
@@ -19,6 +21,7 @@ const Home = ({ recipe }) => {
   return (
     <div>
       <h1>Recipes</h1>
+
       <div>
         <RecipeContainer recipes={recipes} />
       </div>

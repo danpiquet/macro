@@ -13,8 +13,8 @@ import SearchAppBar from "./components/SearchAppBar";
 function App() {
   const authCtx = useContext(AuthContext);
   return (
-    <div >
-      <SearchAppBar/>
+    <div>
+      {authCtx.token && <SearchAppBar />}
       {/* <Header /> */}
       <Routes>
         <Route index element={<Auth />} />

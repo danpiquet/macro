@@ -13,18 +13,17 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import AddIcon from "@mui/icons-material/Add";
-import MailIcon from "@mui/icons-material/Mail";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import LogoutIcon from "@mui/icons-material/Logout";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, Link } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Tooltip from "@material-ui/core/Tooltip";
 import AuthContext from "../store/authContext";
 import { useContext } from "react";
-
-
+import { Logout } from "@mui/icons-material";
+import { useState } from "react";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -165,13 +164,19 @@ export default function PrimarySearchAppBar() {
   // );
   const navigate = useNavigate();
   const label = { inputProps: { "aria-label": "Switch demo" } };
-  const authCtx = useContext(AuthContext)
-  
+  const authCtx = useContext(AuthContext);
+  const [checked, setChecked] = useState(false)
+
+  const handleCheckChange = (e) => {
+    setChecked(e.target.checked)
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed">
         <Toolbar>
-          <IconButton
+          {/* hamburger menu should I ever need it */}
+          {/* <IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -179,46 +184,62 @@ export default function PrimarySearchAppBar() {
             sx={{ mr: 2 }}
           >
             <MenuIcon />
-          </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
-          >
-            Macro
-          </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <Tooltip title="Filter My Recipes">
-              <FormControlLabel
-                label="My Recipes"
-                control={<Switch {...label} name="default" />}
-                onClick={() => authCtx.toggleUserRecipes()}
-              />
-            </Tooltip>
+          </IconButton> */}
+          {authCtx.userId && (
+            <>
+              <Link to="/home" style={{ textDecoration: "none" }}>
+                <Typography
+                  variant="h2"
+                  noWrap
+                  component="div"
+                  sx={{ display: { xs: "none", sm: "block" }, color: "white" }}
+                >
+                  Macro
+                </Typography>
+              </Link>
+              <Search onChange={(e) => authCtx.searchRecipes(e.target.value)}>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Search Recipes…"
+                  inputProps={{ "aria-label": "search" }}
+                />
+              </Search>
+              <Box sx={{ flexGrow: 1 }} />
+              <Box sx={{ display: { xs: "none", md: "flex" } }}>
+                <Tooltip title="Filter My Recipes">
+                  <FormControlLabel
+                    label="My Recipes"
+                    control={<Switch {...label} name="default" />}
+                    // checked={() => authCtx.toggleUserRecipes()}
+                    onChange={(e) => authCtx.toggleUserRecipes(e.target.checked)}
+                  />
+                </Tooltip>
 
-            <Tooltip title="Add Recipe">
-              <IconButton size="large" aria-label="Add Recipe" color="inherit">
-                <AddIcon onClick={() => navigate("/addRecipe")} />
-                {/* <MailIcon /> */}
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Home">
-              <IconButton size="large" aria-label="Home" color="inherit">
-                <HomeIcon onClick={() => navigate("/home")} />
-              </IconButton>
-            </Tooltip>
-          </Box>
+                <Tooltip title="Add Recipe">
+                  <IconButton
+                    size="large"
+                    aria-label="Add Recipe"
+                    color="inherit"
+                  >
+                    <AddIcon onClick={() => navigate("/addRecipe")} />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Home">
+                  <IconButton size="large" aria-label="Home" color="inherit">
+                    <HomeIcon onClick={() => navigate("/home")} />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Logout">
+                  <IconButton size="large" aria-label="Logout" color="inherit">
+                    <LogoutIcon onClick={() => authCtx.logout()} />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            </>
+          )}
+
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"

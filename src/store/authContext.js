@@ -54,7 +54,10 @@ export const AuthContextProvider = (props) => {
 
   const [token, setToken] = useState(initialToken);
   const [userId, setUserId] = useState(initialId);
-  const [userRecipes, setUserRecipes] = useState(initialUserRecipes);
+  const [userRecipes, setUserRecipes] = useState(
+    initialUserRecipes === "false" ? false : true
+  );
+  const [search, setSearch] = useState("");
 
   const logout = () => {
     setToken(null);
@@ -73,20 +76,27 @@ export const AuthContextProvider = (props) => {
     localStorage.setItem("token", token);
     localStorage.setItem("exp", exp);
     localStorage.setItem("userId", userId);
-    localStorage.setItem("userRecipes", false);
+    localStorage.setItem("userRecipes", "false");
     const remainingTime = calculateRemainingTime(exp);
     logoutTimer = setTimeout(logout, remainingTime);
     navigate("/home");
   };
 
-  const toggleUserRecipes = () => {
-    if (!userRecipes) {
+  const toggleUserRecipes = (checked) => {
+    console.log(checked);
+    if (checked === true) {
+      localStorage.setItem("userRecipes", "true");
       setUserRecipes(true);
-      localStorage.setItem("userRecipes", true);
+      console.log("setUserRecipes to true");
     } else {
+      localStorage.setItem("userRecipes", "false");
       setUserRecipes(false);
-      localStorage.setItem("userRecipes", false);
+      console.log("setUserRecipes to false");
     }
+  };
+
+  const searchRecipes = (e) => {
+    setSearch(e);
   };
 
   const contextValue = {
@@ -96,6 +106,8 @@ export const AuthContextProvider = (props) => {
     userId,
     userRecipes,
     toggleUserRecipes,
+    searchRecipes,
+    search,
   };
 
   return (

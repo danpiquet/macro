@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import { BiSearchAlt2 } from "react-icons/bi";
 import RecipeCard from "./RecipeCard";
@@ -45,51 +45,56 @@ const useStyles = makeStyles({
     justifyContent: "center",
   },
 });
-
 const RecipeContainer = ({ recipes }) => {
-  const [search, setSearch] = useState("");
-  const [toggle, setToggle] = useState(false);
-  const label = { inputProps: { "aria-label": "Switch demo" } };
+  // const [searchDisplay, setSearchDisplay] = useState([]);
 
   const authCtx = useContext(AuthContext);
-  const searchDisplay = recipes
-    .filter((recipe) => {
-      if (authCtx.userRecipes) {
-        return (
-          recipe.name.toLowerCase().includes(search.toLowerCase()) &&
-          +recipe.userId === +authCtx.userId
-        );
-      } else {
-        return (
-          recipe.name.toLowerCase().includes(search.toLowerCase()) && recipe
-        );
-      }
-    })
-    .map((recipe) => <RecipeCard recipe={recipe} />);
+  console.log("login userRecipe status:", authCtx.userRecipes);
+  // useEffect(() => {
+  //   console.log('hit useEffect')
+    const searchDisplay = recipes
+      .filter((recipe) => {
+        if (authCtx.userRecipes === true) {
+          console.log("truthy");
+          return (
+            recipe.name.toLowerCase().includes(authCtx.search.toLowerCase()) &&
+            +recipe.userId === +authCtx.userId
+          );
+        } else {
+          console.log("falsey");
+          return (
+            recipe.name.toLowerCase().includes(authCtx.search.toLowerCase()) &&
+            recipe
+          );
+        }
+      })
+      .map((recipe) => <RecipeCard recipe={recipe} />);
+      // setSearchDisplay(searchDisplayResult)
+  // }, [authCtx.userRecipes]);
 
   const classes = useStyles();
 
   return (
     <div style={{ display: "flex", justifyContent: "center", height: "100vh" }}>
-      <div style={{ width: "80%" }}>
-        <div className={classes.searchContainer}>
-       
-          
-          <input
-            type="text"
-            value={search}
-            placeholder="search for a recipe"
-            onChange={(e) => setSearch(e.target.value)}
-            className={classes.searchInput}
-          />
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gridGap: "20px"}}>
+      <div
+        style={{ width: "80%", "@media (maxWidth: 599px)": { width: "90%" } }}
+      >
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gridGap: "20px",
+            marginTop: "30px",
+            "@media (maxWidth: 599px)": {
+              gridTemplateColumns: "1fr",
+            },
+          }}
+        >
           {searchDisplay}
         </div>
       </div>
     </div>
   );
-  
 };
 
 export default RecipeContainer;

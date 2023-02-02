@@ -39,7 +39,8 @@ const RecipeDetails = () => {
   }
 
   console.log(recipeDetail);
-  
+  console.log(editing)
+  console.log(ingredientName,quantity,carbs,fat,protein)
   
   return (
       !editing ? (<div>

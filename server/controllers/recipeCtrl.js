@@ -101,4 +101,7 @@ module.exports = {
     }
     console.log("getRecipe function");
   },
+  editRecipe: async (req, res) => {
+    console.log('editRecipe hit')
+  }
 };

@@ -54,7 +54,7 @@ const RecipeContainer = ({ recipes }) => {
   const authCtx = useContext(AuthContext);
   const searchDisplay = recipes
     .filter((recipe) => {
-      if (toggle) {
+      if (authCtx.userRecipes) {
         return (
           recipe.name.toLowerCase().includes(search.toLowerCase()) &&
           +recipe.userId === +authCtx.userId
@@ -70,15 +70,11 @@ const RecipeContainer = ({ recipes }) => {
   const classes = useStyles();
 
   return (
-    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100vh" }}>
+    <div style={{ display: "flex", justifyContent: "center", height: "100vh" }}>
       <div style={{ width: "80%" }}>
         <div className={classes.searchContainer}>
-        <FormControlLabel
-        onClick={() => setToggle(!toggle)}
-        control={<Switch {...label} checked={toggle} color="warning" />}
-        label="My Recipes"
-      />
-          <BiSearchAlt2 className={classes.searchIcon} />
+       
+          
           <input
             type="text"
             value={search}
@@ -87,7 +83,7 @@ const RecipeContainer = ({ recipes }) => {
             className={classes.searchInput}
           />
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gridGap: "20px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gridGap: "20px"}}>
           {searchDisplay}
         </div>
       </div>

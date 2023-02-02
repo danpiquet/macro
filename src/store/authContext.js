@@ -21,8 +21,9 @@ const getLocalData = () => {
   const storedToken = localStorage.getItem("token");
   const storedExp = localStorage.getItem("exp");
   const storedId = localStorage.getItem("userId");
-console.log("Exp:", storedExp)
+  console.log("Exp:", storedExp);
   const remainingTime = calculateRemainingTime(storedExp);
+  const userRecipes = localStorage.getItem("userRecipes");
 
   if (remainingTime <= 1000 * 60 * 30) {
     localStorage.removeItem("token");
@@ -35,6 +36,7 @@ console.log("Exp:", storedExp)
     token: storedToken,
     duration: remainingTime,
     userId: storedId,
+    userRecipes,
   };
 };
 
@@ -43,13 +45,16 @@ export const AuthContextProvider = (props) => {
 
   let initialToken;
   let initialId;
+  let initialUserRecipes;
   if (localData) {
     initialToken = localData.token;
     initialId = localData.userId;
+    initialUserRecipes = localData.userRecipes;
   }
 
   const [token, setToken] = useState(initialToken);
   const [userId, setUserId] = useState(initialId);
+  const [userRecipes, setUserRecipes] = useState(initialUserRecipes);
 
   const logout = () => {
     setToken(null);
@@ -60,7 +65,7 @@ export const AuthContextProvider = (props) => {
     logoutTimer && clearTimeout(logoutTimer);
   };
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const login = (token, exp, userId) => {
     console.log(token, userId, exp);
     setToken(token);
@@ -68,10 +73,20 @@ export const AuthContextProvider = (props) => {
     localStorage.setItem("token", token);
     localStorage.setItem("exp", exp);
     localStorage.setItem("userId", userId);
+    localStorage.setItem("userRecipes", false);
     const remainingTime = calculateRemainingTime(exp);
     logoutTimer = setTimeout(logout, remainingTime);
-    navigate('/home')
-    console.log("user storage successful");
+    navigate("/home");
+  };
+
+  const toggleUserRecipes = () => {
+    if (!userRecipes) {
+      setUserRecipes(true);
+      localStorage.setItem("userRecipes", true);
+    } else {
+      setUserRecipes(false);
+      localStorage.setItem("userRecipes", false);
+    }
   };
 
   const contextValue = {
@@ -79,6 +94,8 @@ export const AuthContextProvider = (props) => {
     login,
     logout,
     userId,
+    userRecipes,
+    toggleUserRecipes,
   };
 
   return (

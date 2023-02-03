@@ -241,8 +241,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import AuthContext from "../store/authContext";
 import { makeStyles } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import Snackbar from "@material-ui/core";
-import MuiAlert from "@material-ui/lab/Alert";
+import Paper from "@material-ui/core/Paper";
 
 const AddRecipe = () => {
   //main recipe info states
@@ -320,7 +319,6 @@ const AddRecipe = () => {
         </IconButton>
         <TextField
           onChange={(e) => {
-            console.log("hit name");
             handleInputChange(e.target.name, index, e.target.value);
           }}
           name="name"
@@ -402,16 +400,28 @@ const AddRecipe = () => {
   // const classes = useStyles();
   return (
     <div>
-      <div>
-        <Link to="/home" style={{ textDecoration: "none" }}>
-          <Button color="primary" style={{ marginTop: "65px" }}>
-            Back to recipes
-          </Button>
-        </Link>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: "80px",
+        }}
+      >
+        <div>
+          <Link to="/home" style={{ textDecoration: "none" }}>
+            <Button color="primary">Back to recipes</Button>
+          </Link>
+        </div>
         {name && (
-          <Typography variant="h2" style={{ margin: ".1em 0" }}>
-            Recipe: {name}
-          </Typography>
+          <div>
+            <Paper style={{padding: "10px"}}>
+              <Typography variant="h2" style={{ margin: ".1em 0" }}>
+                {name}
+              </Typography>
+            </Paper>
+          </div>
         )}
         {+totalCalories > 0 && (
           <Typography variant="h3" style={{ margin: ".1em 0" }}>
@@ -441,87 +451,122 @@ const AddRecipe = () => {
                 onSubmit={handleSubmit}
                 style={{ width: "60%", margin: "auto" }}
               >
-                <div>
-                  <TextField
-                    placeholder="recipe name"
-                    value={name}
-                    onChange={(e) => setname(e.target.value)}
-                    name="name"
-                    fullWidth
-                  />
-                </div>
+                <Paper style={{ padding: "5px", marginBottom: "20px" }}>
+                  <div>
+                    <TextField
+                      placeholder="recipe name"
+                      value={name}
+                      onChange={(e) => setname(e.target.value)}
+                      name="name"
+                      fullWidth
+                    />
+                  </div>
 
-                <div>
-                  <TextField
-                    placeholder="serves"
-                    value={serves}
-                    onChange={(e) => setServes(e.target.value)}
-                    name="serves"
-                    fullWidth
-                  />
-                </div>
-                <p>{!serves && "how many does it serve?"}</p>
+                  <div>
+                    <TextField
+                      placeholder="serves"
+                      value={serves}
+                      onChange={(e) => setServes(e.target.value)}
+                      name="serves"
+                      fullWidth
+                    />
+                  </div>
 
-                <TextField
-                  placeholder="recipe  instructions"
-                  name="instructions"
-                  value={values.instructions}
-                  onChange={handleChange}
-                  fullWidth
-                  multiline
-                  minRows={10}
-                />
-                <div>
                   <TextField
-                    placeholder="ingredient"
-                    value={ingredientName}
-                    onChange={(e) => setIngredientName(e.target.value)}
+                    placeholder="recipe  instructions"
+                    name="instructions"
+                    value={values.instructions}
+                    onChange={handleChange}
                     fullWidth
+                    multiline
+                    minRows={10}
                   />
-                  <TextField
-                    placeholder="quantity"
-                    value={quantity}
-                    onChange={(e) => setQuantity(e.target.value)}
-                    fullWidth
-                  />
-                  <TextField
-                    placeholder="carb grams"
-                    value={carbs}
-                    onChange={(e) => setCarbs(e.target.value)}
-                    fullWidth
-                  />
-                  <TextField
-                    placeholder="fat grams"
-                    value={fat}
-                    onChange={(e) => setFat(e.target.value)}
-                    fullWidth
-                  />
-                  <TextField
-                    placeholder="protein grams"
-                    value={protein}
-                    onChange={(e) => setProtein(e.target.value)}
-                    fullWidth
-                  />
-                  <Button
-                    type="button"
-                    onClick={() => addIngredients()}
-                    variant="contained"
-                    color="primary"
+                  <div>
+                    <TextField
+                      placeholder="ingredient"
+                      value={ingredientName}
+                      onChange={(e) => setIngredientName(e.target.value)}
+                      fullWidth
+                    />
+                    <TextField
+                      placeholder="quantity"
+                      value={quantity}
+                      onChange={(e) => setQuantity(e.target.value)}
+                      fullWidth
+                    />
+                    <TextField
+                      placeholder="carb grams"
+                      value={carbs}
+                      onChange={(e) => setCarbs(e.target.value)}
+                      fullWidth
+                    />
+                    <TextField
+                      placeholder="fat grams"
+                      value={fat}
+                      onChange={(e) => setFat(e.target.value)}
+                      fullWidth
+                    />
+                    <TextField
+                      placeholder="protein grams"
+                      value={protein}
+                      onChange={(e) => setProtein(e.target.value)}
+                      fullWidth
+                    />
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Button
+                        type="button"
+                        onClick={() => addIngredients()}
+                        variant="contained"
+                        color="primary"
+                        style={{ marginTop: "20px", marginBottom: "20px" }}
+                      >
+                        Add to List
+                      </Button>
+                    </div>
+                  </div>
+                </Paper>
+
+                <Paper>
+                  <div>
+                    <Typography
+                      variant="h5"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        marginTop: "20px",
+                      }}
+                    >
+                      {ingredientsDisplay.length > 0 && "Current Ingredients"}
+                    </Typography>
+                    <div>{ingredientsDisplay}</div>
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
                   >
-                    Add to List
-                  </Button>
-                </div>
-
-                <div>
-                  <h3>current ingredients</h3>
-                  <div>{ingredientsDisplay}</div>
-                </div>
-
-                <div>
-                  <Button type="submit" variant="contained" color="primary">
-                    Save Recipe
-                  </Button>
-                </div>
+                    {ingredientsDisplay.length > 0 && (
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        style={{ marginTop: "20px", marginBottom: "20px" }}
+                      >
+                        Save Recipe
+                      </Button>
+                    )}
+                  </div>
+                </Paper>
               </form>
             );
           }}

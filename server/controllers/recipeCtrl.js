@@ -102,6 +102,27 @@ module.exports = {
     console.log("getRecipe function");
   },
   editRecipe: async (req, res) => {
-    console.log('editRecipe hit')
-  }
+    console.log("editRecipe hit");
+    try {
+      const { allIngredients } = req.body;
+      await Ingredient.bulkCreate([allIngredients], {
+        updateOnDuplicate: ["name", "quantity", "carbs", "fat", "protein"],
+      });
+      const {} = req.body;
+    } catch (err) {}
+  },
+
+  getRecipeIngredients: async (req, res) => {
+    try {
+      const { recipeId } = req.params;
+      const recipeIngredients = await Ingredient.findAll({
+        where: { recipeId },
+        attributes: ["name", "quantity", "carbs", "fat", "protein", "recipeId"],
+      });
+      return res.status(200).send(recipeIngredients);
+    } catch (err) {
+      console.log("getRecipeIngredients error: ", err);
+      return res.sendStatus(400);
+    }
+  },
 };

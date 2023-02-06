@@ -15,7 +15,7 @@ const {
   addRecipe,
   getRecipe,
   getRecipeIngredients,
-  editRecipe
+  editRecipe,
 } = require("./controllers/recipeCtrl");
 
 const app = express();
@@ -38,9 +38,9 @@ app.get("/api/recipes/:id", getRecipe);
 
 app.get("/api/recipes/:userId", getAllUserRecipes);
 
-app.get("/api/ingredients/:recipeId", getRecipeIngredients)
+app.get("/api/ingredients/:recipeId", getRecipeIngredients);
 
-app.put('/api/ingredients', editRecipe)
+app.put("/api/ingredients", editRecipe);
 
 sequelize
   .sync()

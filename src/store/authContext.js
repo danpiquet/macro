@@ -73,6 +73,7 @@ export const AuthContextProvider = (props) => {
     console.log(token, userId, exp);
     setToken(token);
     setUserId(userId);
+    setUserRecipes(false)
     localStorage.setItem("token", token);
     localStorage.setItem("exp", exp);
     localStorage.setItem("userId", userId);

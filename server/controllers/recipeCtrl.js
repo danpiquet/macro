@@ -104,12 +104,25 @@ module.exports = {
   editRecipe: async (req, res) => {
     console.log("editRecipe hit");
     try {
-      const { allIngredients } = req.body;
-      await Ingredient.bulkCreate([allIngredients], {
+      const { allIngredients, name, serves, instructions, id } = req.body;
+      await Recipe.update(
+        {
+          name,
+          serves,
+          instructions,
+        },
+        {
+          where: { id },
+        }
+      );
+      await Ingredient.bulkCreate(allIngredients, {
         updateOnDuplicate: ["name", "quantity", "carbs", "fat", "protein"],
       });
-      const {} = req.body;
-    } catch (err) {}
+      res.sendStatus(200)
+    } catch (err) {
+      console.log("editRecipe error: ", err);
+      res.sendStatus(400);
+    }
   },
 
   getRecipeIngredients: async (req, res) => {

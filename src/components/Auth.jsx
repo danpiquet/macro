@@ -36,8 +36,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-
 const Auth = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -73,9 +71,9 @@ const Auth = () => {
 
   const handleKeyPress = (e) => {
     console.log(e);
-    
+
     if (e.code === "Enter") {
-      e.preventDefault()
+      e.preventDefault();
       handleSubmit(e);
     }
   };
@@ -93,6 +91,7 @@ const Auth = () => {
       />
       <TextField
         label="Password"
+        type="password"
         className={classes.textField}
         onChange={(e) => setPassword(e.target.value)}
         value={password}

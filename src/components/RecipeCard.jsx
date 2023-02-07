@@ -5,17 +5,30 @@ import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import CardHeader from "@material-ui/core/CardHeader";
-import { useContainedCardHeaderStyles } from "@mui-treasury/styles/cardHeader/contained";
 import { useSoftRiseShadowStyles } from "@mui-treasury/styles/shadow/softRise";
-import { useFadedShadowStyles } from "@mui-treasury/styles/shadow/faded";
 
-const useStyles = makeStyles({
-  root: {
-    width: "100%",
-    maxWidth: 500,
+import cx from "clsx";
+
+const useStyles = makeStyles(({ spacing }) => ({
+  card: {
+    marginTop: 40,
+    borderRadius: spacing(3),
+    transition: "0.3s",
+    width: "90%",
+    overflow: "initial",
+    background: "#ffffff",
+    padding: "10px",
   },
-});
+  content: {
+    paddingTop: 0,
+    textAlign: "left",
+    overflowX: "hidden",
+  },
+  headerText: {
+    color: "black",
+    padding: "5px",
+  },
+}));
 
 const RecipeCard = ({ recipe }) => {
   const navigate = useNavigate();
@@ -23,9 +36,9 @@ const RecipeCard = ({ recipe }) => {
     navigate(`/recipes/${recipe.id}`);
   };
   const classes = useStyles();
-  const cardHeaderStyles = useContainedCardHeaderStyles();
+
   const cardShadowStyles = useSoftRiseShadowStyles({ inactive: true });
-  const cardHeaderShadowStyles = useFadedShadowStyles();
+
   const fatCalories = recipe.ingredients.reduce((acc, ing) => {
     return acc + +ing?.fat * 9;
   }, 0);
@@ -40,17 +53,20 @@ const RecipeCard = ({ recipe }) => {
   const fatPercent = ((+fatCalories / +totalCalories) * 100).toFixed(0);
   const proteinPercent = 100 - carbPercent - fatPercent;
   return (
-    <Card className={classes.root}>
-      <CardHeader
-        style={{ width: "100%" }}
-        className={cardHeaderShadowStyles.root}
-        classes={cardHeaderStyles}
-        title={recipe.name}
-      />
-      <CardContent>
-        {/* <Typography variant="h2" component="h2">
-          {recipe.name}
-        </Typography> */}
+    <Card className={cx(classes.card, cardShadowStyles.root)}>
+      <Typography variant="h2" className={classes.headerText}>
+        {recipe.name}
+      </Typography>
+
+      <CardContent
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          
+        }}
+      >
+        
         <Typography variant="h4" component="h2">
           {(totalCalories / recipe.serves).toFixed(0)} cal
         </Typography>
@@ -62,11 +78,14 @@ const RecipeCard = ({ recipe }) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            
           }}
         >
-          <Button variant="contained" color="primary" onClick={handleClick}>
-            See More
-          </Button>
+          
+            <Button variant="contained" color="primary" onClick={handleClick}>
+              See More
+            </Button>
+          
         </div>
       </CardContent>
     </Card>

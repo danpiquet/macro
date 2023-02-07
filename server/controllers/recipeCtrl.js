@@ -90,7 +90,7 @@ module.exports = {
           {
             model: Ingredient,
             required: true,
-            attributes: ["name", "quantity", "carbs", "fat", "protein"],
+            attributes: ["name", "id", "quantity", "carbs", "fat", "protein"],
           },
         ],
       });
@@ -118,9 +118,22 @@ module.exports = {
       await Ingredient.bulkCreate(allIngredients, {
         updateOnDuplicate: ["name", "quantity", "carbs", "fat", "protein"],
       });
-      res.sendStatus(200)
+      res.sendStatus(200);
     } catch (err) {
       console.log("editRecipe error: ", err);
+      res.sendStatus(400);
+    }
+  },
+
+  deleteIngredient: async (req, res) => {
+    try {
+      const { id } = req.params;
+      await Ingredient.destroy({
+        where: { id },
+      });
+      return res.sendStatus(200);
+    } catch (err) {
+      console.log("error in deleteIngredient: ", err);
       res.sendStatus(400);
     }
   },
@@ -130,7 +143,15 @@ module.exports = {
       const { recipeId } = req.params;
       const recipeIngredients = await Ingredient.findAll({
         where: { recipeId },
-        attributes: ["name", "quantity", "carbs", "fat", "protein", "recipeId"],
+        attributes: [
+          "name",
+          "id",
+          "quantity",
+          "carbs",
+          "fat",
+          "protein",
+          "recipeId",
+        ],
       });
       return res.status(200).send(recipeIngredients);
     } catch (err) {

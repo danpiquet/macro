@@ -82,19 +82,25 @@ const RecipeDetails = () => {
     newState[index][`${name}`] = value;
     setAllIngredients(newState);
   };
-  const handleDelete = (index) => {
-    const newState = [...allIngredients];
+  const handleDelete = async (index) => {
+    console.log(recipeDetail.ingredients[index])
+    await axios
+    .delete(`/api/ingredients/${recipeDetail.ingredients[index].id}`)    
+    const newState = [...recipeDetail.ingredients];
     newState.splice(index, 1);
+    recipeDetail.ingredients = newState
     setAllIngredients(newState);
-  };
 
+
+  };
+console.log(allIngredients)
   const ingredientsDisplay = recipeDetail?.ingredients?.map((ing, index) => {
     return (
       <div
         key={index}
         style={{ display: "flex", alignItems: "center", marginTop: "1rem" }}
       >
-        <IconButton onClick={() => handleDelete()}>
+        <IconButton onClick={() => handleDelete(index)}>
           <DeleteIcon />
         </IconButton>
 
@@ -250,12 +256,12 @@ const RecipeDetails = () => {
         <Typography variant="h4">
           {carbPercent}C/{fatPercent}F/{proteinPercent}P
         </Typography>
-        <Typography variant="h4">
-          {carbGrams}g C/{fatGrams}g F/{proteinGrams}g P
-        </Typography>
       </Paper>
       <Paper style={{ marginTop: "20px", width: "60%", padding: "10px" }}>
         <Typography variant="h4">Serves: {recipeDetail.serves}</Typography>
+        <Typography variant="h6">
+          ({carbGrams}g C / {fatGrams}g F / {proteinGrams}g P)
+        </Typography>
         <div>{ingredients}</div>
         <Typography style={{ marginTop: "20px", marginBottom: "20px" }}>
           Instructions: {recipeDetail.instructions}

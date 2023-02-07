@@ -302,6 +302,7 @@ const AddRecipe = () => {
   };
 
   const handleDelete = (index) => {
+    console.log(index)
     const newState = [...allIngredients];
     newState.splice(index, 1);
     setAllIngredients(newState);
@@ -314,7 +315,7 @@ const AddRecipe = () => {
         key={index}
         style={{ display: "flex", alignItems: "center", marginTop: "1rem" }}
       >
-        <IconButton onClick={() => handleDelete()}>
+        <IconButton onClick={() => handleDelete(index)}>
           <DeleteIcon />
         </IconButton>
         <TextField

@@ -14,7 +14,6 @@ module.exports = {
       const { username, password } = req.body;
       let foundUser = await User.findOne({ where: { username } });
       if (foundUser) {
-        console.log(foundUser);
         res
           .status(400)
           .send(

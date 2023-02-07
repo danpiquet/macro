@@ -36,7 +36,6 @@ module.exports = {
         ing.recipeId = newRecipe.id;
         return ing;
       });
-      console.log("newArr", newArr);
       await Ingredient.bulkCreate(newArr);
       const recipeDetails = await Recipe.findOne({
         where: { id: newRecipe.id },
@@ -76,7 +75,6 @@ module.exports = {
   },
   getRecipe: async (req, res) => {
     const { id } = req.params;
-    console.log(id);
     try {
       const recipe = await Recipe.findOne({
         where: { id },
@@ -102,7 +100,6 @@ module.exports = {
     console.log("getRecipe function");
   },
   editRecipe: async (req, res) => {
-    console.log("editRecipe hit");
     try {
       const { allIngredients, name, serves, instructions, id } = req.body;
       await Recipe.update(

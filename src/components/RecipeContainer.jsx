@@ -42,18 +42,15 @@ const useStyles = makeStyles({
 });
 const RecipeContainer = ({ recipes }) => {
   const authCtx = useContext(AuthContext);
-  console.log("login userRecipe status:", authCtx.userRecipes);
 
   const searchDisplay = recipes
     .filter((recipe) => {
       if (authCtx.userRecipes === true) {
-        console.log("truthy");
         return (
           recipe.name.toLowerCase().includes(authCtx.search.toLowerCase()) &&
           +recipe.userId === +authCtx.userId
         );
       } else {
-        console.log("falsey");
         return (
           recipe.name.toLowerCase().includes(authCtx.search.toLowerCase()) &&
           recipe

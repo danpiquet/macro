@@ -21,7 +21,6 @@ const getLocalData = () => {
   const storedToken = localStorage.getItem("token");
   const storedExp = localStorage.getItem("exp");
   const storedId = localStorage.getItem("userId");
-  console.log("Exp:", storedExp);
   const remainingTime = calculateRemainingTime(storedExp);
   const userRecipes = localStorage.getItem("userRecipes");
 
@@ -70,10 +69,9 @@ export const AuthContextProvider = (props) => {
 
   const navigate = useNavigate();
   const login = (token, exp, userId) => {
-    console.log(token, userId, exp);
     setToken(token);
     setUserId(userId);
-    setUserRecipes(false)
+    setUserRecipes(false);
     localStorage.setItem("token", token);
     localStorage.setItem("exp", exp);
     localStorage.setItem("userId", userId);
@@ -84,15 +82,12 @@ export const AuthContextProvider = (props) => {
   };
 
   const toggleUserRecipes = (checked) => {
-    console.log(checked);
     if (checked === true) {
       localStorage.setItem("userRecipes", "true");
       setUserRecipes(true);
-      console.log("setUserRecipes to true");
     } else {
       localStorage.setItem("userRecipes", "false");
       setUserRecipes(false);
-      console.log("setUserRecipes to false");
     }
   };
 

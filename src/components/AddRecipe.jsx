@@ -27,7 +27,6 @@ const AddRecipe = () => {
       ...allIngredients,
       { name: ingredientName, quantity, carbs, fat, protein },
     ]);
-    console.log(allIngredients);
     setIngredientName("");
     setQuantity("");
     setCarbs("");
@@ -46,34 +45,29 @@ const AddRecipe = () => {
   const onSubmit = (values) => {
     values.allIngredients = allIngredients;
     values.userId = authCtx.userId;
-    console.log(values);
     values.name = name;
     values.serves = serves;
     axios
       .post("/api/recipes", values)
       .then((res) => {
-        console.log(res.data);
         navigate(`/recipes/${res.data.id}`);
       })
       .catch((err) => console.log(err));
   };
 
   const handleInputChange = (name, index, value) => {
-    console.log(name, index, value);
     const newState = [...allIngredients];
     newState[index][`${name}`] = value;
     setAllIngredients(newState);
   };
 
   const handleDelete = (index) => {
-    console.log(index);
     const newState = [...allIngredients];
     newState.splice(index, 1);
     setAllIngredients(newState);
   };
 
   const ingredientsDisplay = allIngredients.map((ing, index) => {
-    console.log(ing);
     return (
       <div
         key={index}
@@ -170,7 +164,7 @@ const AddRecipe = () => {
             <Button color="primary">Back to recipes</Button>
           </Link>
         </div>
-        
+
         {name && (
           <div>
             <Paper style={{ padding: "10px" }}>

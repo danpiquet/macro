@@ -57,7 +57,6 @@ const Auth = () => {
     axios
       .post(register ? "/api/register" : "/api/login", body)
       .then((res) => {
-        console.log("POST AUTH", res.data);
         authCtx.login(res.data.token, res.data.exp, res.data.userId);
         navigate("/home");
       })
@@ -70,7 +69,6 @@ const Auth = () => {
   };
 
   const handleKeyPress = (e) => {
-    console.log(e);
 
     if (e.code === "Enter") {
       e.preventDefault();

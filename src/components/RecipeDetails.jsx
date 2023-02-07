@@ -40,7 +40,6 @@ const RecipeDetails = () => {
   };
 
   const handleSaveEdit = () => {
-    console.log(recipeDetail.ingredients);
     const bodyObj = {
       name,
       serves,
@@ -52,7 +51,6 @@ const RecipeDetails = () => {
     axios
       .put("/api/ingredients", bodyObj)
       .then((res) => {
-        console.log(editing);
         getRecipeDetail();
         getIngredientDetail();
         setEditing(false);
@@ -66,13 +64,11 @@ const RecipeDetails = () => {
   }, []);
 
   const handleInputChange = (name, index, value) => {
-    console.log(name, index, value);
     const newState = [...recipeDetail.ingredients];
     newState[index][`${name}`] = value;
     setAllIngredients(newState);
   };
   const handleDelete = async (index) => {
-    console.log(recipeDetail.ingredients[index]);
     await axios.delete(
       `/api/ingredients/${recipeDetail.ingredients[index].id}`
     );
@@ -81,7 +77,6 @@ const RecipeDetails = () => {
     recipeDetail.ingredients = newState;
     setAllIngredients(newState);
   };
-  console.log(allIngredients);
   const ingredientsDisplay = recipeDetail?.ingredients?.map((ing, index) => {
     return (
       <div
@@ -163,8 +158,6 @@ const RecipeDetails = () => {
       </div>
     );
   });
-
-  console.log(recipeDetail);
 
   const fatCals = recipeDetail?.ingredients?.reduce((acc, ing) => {
     return acc + +ing?.fat * 9;

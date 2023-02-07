@@ -6,7 +6,6 @@ const label = { inputProps: { "aria-label": "Switch demo" } };
 
 const Home = () => {
   const [recipes, setRecipes] = useState([]);
-  console.log(recipes);
   const getRecipes = () => {
     axios
       .get("/api/recipes")

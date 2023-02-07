@@ -187,6 +187,19 @@ const RecipeDetails = () => {
   const fatPercent = ((+fatCals / +totalCalories) * 100).toFixed(0);
   const proteinPercent = 100 - carbPercent - fatPercent;
 
+  const totalFatGrams = recipeDetail.ingredients?.reduce((acc, ing) => {
+    return acc + +ing?.fat
+  },0)
+  const totalCarbGrams = recipeDetail.ingredients?.reduce((acc, ing) => {
+    return acc + +ing?.carbs
+  },0)
+  const totalProteinGrams = recipeDetail.ingredients?.reduce((acc, ing) => {
+    return acc + +ing?.protein
+  },0)
+  const fatGrams = (totalFatGrams / serves).toFixed(0)
+  const carbGrams = (totalCarbGrams / serves).toFixed(0)
+  const proteinGrams = (totalProteinGrams / serves).toFixed(0)
+
   const updatedFatCals = allIngredients?.reduce((acc, ing) => {
     return acc + +ing?.fat * 9;
   }, 0);
@@ -236,6 +249,9 @@ const RecipeDetails = () => {
         </Typography>
         <Typography variant="h4">
           {carbPercent}C/{fatPercent}F/{proteinPercent}P
+        </Typography>
+        <Typography variant="h4">
+          {carbGrams}g C/{fatGrams}g F/{proteinGrams}g P
         </Typography>
       </Paper>
       <Paper style={{ marginTop: "20px", width: "60%", padding: "10px" }}>

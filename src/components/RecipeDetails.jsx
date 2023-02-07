@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import AuthContext from "../store/authContext";
@@ -8,7 +8,6 @@ import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { Navigate } from "react-router-dom";
 
 const RecipeDetails = () => {
   const { id } = useParams();
@@ -22,13 +21,6 @@ const RecipeDetails = () => {
   const [allIngredients, setAllIngredients] = useState(
     recipeDetail?.ingredients
   );
-  const [recipes, setRecipes] = useState([]);
-  //individual ingredient info states
-  // const [ingredientName, setIngredientName] = useState(recipeDetail.ingredients.name);
-  const [quantity, setQuantity] = useState("");
-  const [carbs, setCarbs] = useState("");
-  const [fat, setFat] = useState("");
-  const [protein, setProtein] = useState("");
 
   const authCtx = useContext(AuthContext);
   const getRecipeDetail = () => {
@@ -44,10 +36,7 @@ const RecipeDetails = () => {
   };
 
   const getIngredientDetail = () => {
-    axios
-      .get(`/api/ingredients/${id}`)
-      .then((res) => {})
-      .catch((err) => console.log(err));
+    axios.get(`/api/ingredients/${id}`).catch((err) => console.log(err));
   };
 
   const handleSaveEdit = () => {
@@ -83,17 +72,16 @@ const RecipeDetails = () => {
     setAllIngredients(newState);
   };
   const handleDelete = async (index) => {
-    console.log(recipeDetail.ingredients[index])
-    await axios
-    .delete(`/api/ingredients/${recipeDetail.ingredients[index].id}`)    
+    console.log(recipeDetail.ingredients[index]);
+    await axios.delete(
+      `/api/ingredients/${recipeDetail.ingredients[index].id}`
+    );
     const newState = [...recipeDetail.ingredients];
     newState.splice(index, 1);
-    recipeDetail.ingredients = newState
+    recipeDetail.ingredients = newState;
     setAllIngredients(newState);
-
-
   };
-console.log(allIngredients)
+  console.log(allIngredients);
   const ingredientsDisplay = recipeDetail?.ingredients?.map((ing, index) => {
     return (
       <div
@@ -194,17 +182,17 @@ console.log(allIngredients)
   const proteinPercent = 100 - carbPercent - fatPercent;
 
   const totalFatGrams = recipeDetail.ingredients?.reduce((acc, ing) => {
-    return acc + +ing?.fat
-  },0)
+    return acc + +ing?.fat;
+  }, 0);
   const totalCarbGrams = recipeDetail.ingredients?.reduce((acc, ing) => {
-    return acc + +ing?.carbs
-  },0)
+    return acc + +ing?.carbs;
+  }, 0);
   const totalProteinGrams = recipeDetail.ingredients?.reduce((acc, ing) => {
-    return acc + +ing?.protein
-  },0)
-  const fatGrams = (totalFatGrams / serves).toFixed(0)
-  const carbGrams = (totalCarbGrams / serves).toFixed(0)
-  const proteinGrams = (totalProteinGrams / serves).toFixed(0)
+    return acc + +ing?.protein;
+  }, 0);
+  const fatGrams = (totalFatGrams / serves).toFixed(0);
+  const carbGrams = (totalCarbGrams / serves).toFixed(0);
+  const proteinGrams = (totalProteinGrams / serves).toFixed(0);
 
   const updatedFatCals = allIngredients?.reduce((acc, ing) => {
     return acc + +ing?.fat * 9;

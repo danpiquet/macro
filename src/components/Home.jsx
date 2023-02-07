@@ -1,11 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { BiSearchAlt2 } from "react-icons/bi";
 import RecipeContainer from "./RecipeContainer";
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
-const Home = ({ recipe }) => {
+const Home = () => {
   const [recipes, setRecipes] = useState([]);
   console.log(recipes);
   const getRecipes = () => {

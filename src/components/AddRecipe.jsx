@@ -1,11 +1,10 @@
 import axios from "axios";
 import React, { useContext, useState } from "react";
-import { Navigate, NavLink, useNavigate, Link } from "react-router-dom";
-import { Formik, Form } from "formik";
-import { TextField, Button, IconButton, Alert } from "@material-ui/core";
+import { useNavigate, Link } from "react-router-dom";
+import { Formik } from "formik";
+import { TextField, Button, IconButton } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AuthContext from "../store/authContext";
-import { makeStyles } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 
@@ -13,7 +12,6 @@ const AddRecipe = () => {
   //main recipe info states
   const [name, setname] = useState("");
   const [serves, setServes] = useState("");
-  const [recipeInstructions, setRecipeInstructions] = useState("");
   const [allIngredients, setAllIngredients] = useState([]);
   //individual ingredient info states
   const [ingredientName, setIngredientName] = useState("");
@@ -68,7 +66,7 @@ const AddRecipe = () => {
   };
 
   const handleDelete = (index) => {
-    console.log(index)
+    console.log(index);
     const newState = [...allIngredients];
     newState.splice(index, 1);
     setAllIngredients(newState);
@@ -156,7 +154,6 @@ const AddRecipe = () => {
     return acc + ((ing.protein * 4) / totalCalories) * 100;
   }, 0);
 
-
   return (
     <div>
       <div
@@ -173,9 +170,10 @@ const AddRecipe = () => {
             <Button color="primary">Back to recipes</Button>
           </Link>
         </div>
+        
         {name && (
           <div>
-            <Paper style={{padding: "10px"}}>
+            <Paper style={{ padding: "10px" }}>
               <Typography variant="h2" style={{ margin: ".1em 0" }}>
                 {name}
               </Typography>

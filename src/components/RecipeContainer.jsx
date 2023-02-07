@@ -1,12 +1,7 @@
-import React, { useContext, useEffect } from "react";
-import { useState } from "react";
-import { BiSearchAlt2 } from "react-icons/bi";
+import React, { useContext } from "react";
 import RecipeCard from "./RecipeCard";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Switch from "@material-ui/core/Switch";
 import AuthContext from "../store/authContext";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles({
   root: {

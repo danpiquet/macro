@@ -63,10 +63,8 @@ const RecipeCard = ({ recipe }) => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          
         }}
       >
-        
         <Typography variant="h4" component="h2">
           {(totalCalories / recipe.serves).toFixed(0)} cal
         </Typography>
@@ -78,14 +76,11 @@ const RecipeCard = ({ recipe }) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            
           }}
         >
-          
-            <Button variant="contained" color="primary" onClick={handleClick}>
-              See More
-            </Button>
-          
+          <Button variant="contained" color="primary" onClick={handleClick}>
+            See More
+          </Button>
         </div>
       </CardContent>
     </Card>

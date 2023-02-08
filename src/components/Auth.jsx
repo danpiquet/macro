@@ -87,44 +87,63 @@ const Auth = () => {
         <Typography variant="h2" style={{ marginTop: "65px" }}>
           Macro
         </Typography>
-        <Paper className={classes.form}>
-          <TextField
-            label="Username"
-            className={classes.textField}
-            onChange={(e) => setUsername(e.target.value)}
-            value={username}
-          />
-          <TextField
-            label="Password"
-            type="password"
-            className={classes.textField}
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-            onKeyPress={(e) => handleKeyPress(e)}
-          />
-          {errMessage && (
-            <Typography variant="body2" className={classes.errorMessage}>
-              incorrect username or password
-            </Typography>
-          )}
-          <Button
-            variant="contained"
-            color="primary"
-            type="submit"
-            className={classes.button}
-            onClick={(e) => handleSubmit(e)}
-          >
-            {register ? "Register" : "Sign In"}
-          </Button>
-          <Button
-            variant="outlined"
-            className={classes.button}
-            onClick={() => setRegister(!register)}
-          >
-            Need to {register ? "Login?" : "Register?"}
-          </Button>
-        </Paper>
+        <div style={{ width: "30%", maxWidth: "800px" }}>
+          <Paper className={classes.form}>
+            <TextField
+              label="Username"
+              className={classes.textField}
+              onChange={(e) => setUsername(e.target.value)}
+              value={username}
+              style={{ width: "70%" }}
+            />
+            <TextField
+              label="Password"
+              type="password"
+              className={classes.textField}
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              onKeyPress={(e) => handleKeyPress(e)}
+              style={{ width: "70%" }}
+            />
+            {errMessage && (
+              <Typography variant="body2" className={classes.errorMessage}>
+                incorrect username or password
+              </Typography>
+            )}
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              className={classes.button}
+              onClick={(e) => handleSubmit(e)}
+            >
+              {register ? "Register" : "Sign In"}
+            </Button>
+            <Button
+              variant="outlined"
+              className={classes.button}
+              onClick={() => setRegister(!register)}
+            >
+              Need to {register ? "Login?" : "Register?"}
+            </Button>
+          </Paper>
+        </div>
       </div>
+      <style>
+    {`
+      @media only screen and (max-width: 600px) {
+        .form {
+          width: 80%;
+        }
+        .textField {
+          width: 100%;
+        }
+        .button {
+          width: 100%;
+        }
+      }
+    `}
+  </style>
     </div>
   );
 };

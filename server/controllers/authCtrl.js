@@ -62,7 +62,6 @@ module.exports = {
           });
         } else {
           res.status(400).send("That password is incorrect");
-          alert("sorry");
         }
       } else {
         res.status(400).send("No user found with that username");

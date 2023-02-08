@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
+import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -69,7 +70,6 @@ const Auth = () => {
   };
 
   const handleKeyPress = (e) => {
-
     if (e.code === "Enter") {
       e.preventDefault();
       handleSubmit(e);
@@ -77,45 +77,54 @@ const Auth = () => {
   };
 
   return (
-    <div className={classes.form}>
-      <Typography variant="h2" style={{ marginTop: "65px" }}>
-        Macro
-      </Typography>
-      <TextField
-        label="Username"
-        className={classes.textField}
-        onChange={(e) => setUsername(e.target.value)}
-        value={username}
-      />
-      <TextField
-        label="Password"
-        type="password"
-        className={classes.textField}
-        onChange={(e) => setPassword(e.target.value)}
-        value={password}
-        onKeyPress={(e) => handleKeyPress(e)}
-      />
-      {errMessage && (
-        <Typography variant="body2" className={classes.errorMessage}>
-          incorrect username or password
+    <div
+      style={{
+        background: "linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%)",
+        height: "100vh",
+      }}
+    >
+      <div className={classes.form}>
+        <Typography variant="h2" style={{ marginTop: "65px" }}>
+          Macro
         </Typography>
-      )}
-      <Button
-        variant="contained"
-        color="primary"
-        type="submit"
-        className={classes.button}
-        onClick={(e) => handleSubmit(e)}
-      >
-        {register ? "Register" : "Sign In"}
-      </Button>
-      <Button
-        variant="outlined"
-        className={classes.button}
-        onClick={() => setRegister(!register)}
-      >
-        Need to {register ? "Login?" : "Register?"}
-      </Button>
+        <Paper className={classes.form}>
+          <TextField
+            label="Username"
+            className={classes.textField}
+            onChange={(e) => setUsername(e.target.value)}
+            value={username}
+          />
+          <TextField
+            label="Password"
+            type="password"
+            className={classes.textField}
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+            onKeyPress={(e) => handleKeyPress(e)}
+          />
+          {errMessage && (
+            <Typography variant="body2" className={classes.errorMessage}>
+              incorrect username or password
+            </Typography>
+          )}
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            className={classes.button}
+            onClick={(e) => handleSubmit(e)}
+          >
+            {register ? "Register" : "Sign In"}
+          </Button>
+          <Button
+            variant="outlined"
+            className={classes.button}
+            onClick={() => setRegister(!register)}
+          >
+            Need to {register ? "Login?" : "Register?"}
+          </Button>
+        </Paper>
+      </div>
     </div>
   );
 };

@@ -17,7 +17,7 @@ const Home = () => {
     getRecipes();
   }, []);
   return (
-    <div>
+    <div style={{background: "linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%)"}}>
       <h1>Recipes</h1>
 
       <div>
@@ -28,3 +28,4 @@ const Home = () => {
 };
 
 export default Home;
+

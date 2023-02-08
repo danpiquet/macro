@@ -28,6 +28,13 @@ const useStyles = makeStyles(({ spacing }) => ({
     color: "black",
     padding: "5px",
   },
+  button: {
+    color: "linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)",
+    "&:hover": {
+      backgroundColor: "linear-gradient(to right, #4facfe 0%, #00f2fe 100%)",
+      cursor: "pointer",
+    },
+  },
 }));
 
 const RecipeCard = ({ recipe }) => {
@@ -78,7 +85,11 @@ const RecipeCard = ({ recipe }) => {
             justifyContent: "center",
           }}
         >
-          <Button variant="contained" color="primary" onClick={handleClick}>
+          <Button
+            variant="contained"
+            className={classes.button}
+            onClick={handleClick}
+          >
             See More
           </Button>
         </div>
